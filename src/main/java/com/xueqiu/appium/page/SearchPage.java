@@ -1,9 +1,11 @@
 package com.xueqiu.appium.page;
 
 import com.xueqiu.appium.driver.Driver;
+import com.xueqiu.appium.utils.WaitUtils;
 import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
@@ -36,7 +38,8 @@ public class SearchPage extends BasePage {
         List<String> list = new ArrayList<String>();
         String attribute = clickFollowBtn();
         list.add(attribute);
-        AndroidElement didSelect = (AndroidElement) find(By.xpath("//*[contains(@resource-id, 'followed_btn')]"));
+
+        AndroidElement didSelect = (AndroidElement) find(By.id("followed_btn"));
         list.add(didSelect.getAttribute("resourceId"));
         return list;
 
@@ -53,7 +56,7 @@ public class SearchPage extends BasePage {
         List<String> list = new ArrayList<String>();
         String attribute = clickFollowBtn();
         list.add(attribute);
-        AndroidElement unSelect = (AndroidElement) find(By.xpath("//*[contains(@resource-id,'followed_btn')]"));
+        AndroidElement unSelect = (AndroidElement) find(By.id("followed_btn"));
         list.add(unSelect.getAttribute("resourceId"));
         unSelect.click();
         return list;
@@ -63,7 +66,11 @@ public class SearchPage extends BasePage {
     public List<String> unFollowAll() {
         List<String> attributeList = new ArrayList<String>();
         List<WebElement> list = findALL(By.id("followed_btn"));
+        if (list != null && !list.isEmpty()) {
+            System.out.println("list size=" + list.size());
+        }
         for (WebElement webElement : list) {
+            webElement = WaitUtils.wait(Driver.getCurrentDriver(), 5, By.id("followed_btn"));
             webElement.click();
         }
         return attributeList;

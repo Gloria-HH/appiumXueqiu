@@ -31,17 +31,19 @@ public class SearchTest {
 
     }
 
-    @Test
+    @ParameterizedTest
     @CsvSource({
             "pdd,com.xueqiu.android:id/followed_btn"
     })
     public void follow(String stockCode, String attribute) {
-        List<String> list = searchPage.search(stockCode).follow();
+        searchPage.search(stockCode);
+        searchPage.unFollowAll();
+        List<String> list = searchPage.follow();
         assertThat(list, hasItems(attribute));
 
     }
 
-    @Test
+    @ParameterizedTest
     @CsvSource({
             "mi,com.xueqiu.android:id/follow_btn"
     })
@@ -50,7 +52,6 @@ public class SearchTest {
         assertThat(list, hasItems(attribute));
 
     }
-
 
     @AfterEach
     public void teardown() {
