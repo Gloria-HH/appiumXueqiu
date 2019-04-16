@@ -48,7 +48,9 @@ public class SearchTest {
             "mi,com.xueqiu.android:id/follow_btn"
     })
     public void unFollow(String stockCode, String attribute) {
-        List<String> list = searchPage.search(stockCode).unFollow();
+        searchPage.search(stockCode);
+        searchPage.unFollowAll();
+        List<String> list = searchPage.unFollow();
         assertThat(list, hasItems(attribute));
 
     }

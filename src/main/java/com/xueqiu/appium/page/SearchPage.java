@@ -36,8 +36,7 @@ public class SearchPage extends BasePage {
 
     public List<String> follow() {
         List<String> list = new ArrayList<String>();
-        String attribute = clickFollowBtn();
-        list.add(attribute);
+        clickFollowBtn();
 
         AndroidElement didSelect = (AndroidElement) find(By.id("followed_btn"));
         list.add(didSelect.getAttribute("resourceId"));
@@ -54,11 +53,11 @@ public class SearchPage extends BasePage {
 
     public List<String> unFollow() {
         List<String> list = new ArrayList<String>();
-        String attribute = clickFollowBtn();
-        list.add(attribute);
-        AndroidElement unSelect = (AndroidElement) find(By.id("followed_btn"));
-        list.add(unSelect.getAttribute("resourceId"));
-        unSelect.click();
+        clickFollowBtn();
+        AndroidElement followed = (AndroidElement) find(By.id("followed_btn"));
+        followed.click();
+        AndroidElement unfollow = (AndroidElement) find(By.id("follow_btn"));
+        list.add(unfollow.getAttribute("resourceId"));
         return list;
 
     }
@@ -66,9 +65,6 @@ public class SearchPage extends BasePage {
     public List<String> unFollowAll() {
         List<String> attributeList = new ArrayList<String>();
         List<WebElement> list = findALL(By.id("followed_btn"));
-        if (list != null && !list.isEmpty()) {
-            System.out.println("list size=" + list.size());
-        }
         for (WebElement webElement : list) {
             webElement = WaitUtils.wait(Driver.getCurrentDriver(), 5, By.id("followed_btn"));
             webElement.click();
