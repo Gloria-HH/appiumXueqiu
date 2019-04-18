@@ -15,7 +15,7 @@ public class BasePage {
             return Driver.getCurrentDriver().findElement(locator);
         } catch (NoSuchElementException e) {
             bulletBox();
-            return WaitUtils.wait(Driver.getCurrentDriver(), 5, locator);
+            return WaitUtils.waitElementLocate(Driver.getCurrentDriver(), 3, locator);
         }
 
     }

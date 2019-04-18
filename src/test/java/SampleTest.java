@@ -1,21 +1,22 @@
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
-import org.openqa.selenium.remote.DesiredCapabilities;
-
 public class SampleTest {
 
-    private  static AndroidDriver driver;
+    private   AndroidDriver driver;
 
-    @BeforeAll
-    public static void setUp() throws MalformedURLException {
+    @BeforeEach
+    public  void setUp() throws MalformedURLException {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         desiredCapabilities.setCapability("deviceName", "ddd");
         desiredCapabilities.setCapability("platformName", "android");
@@ -31,17 +32,19 @@ public class SampleTest {
     }
 
     @Test
-    public void sampleTest() {
+    public void swipe(){
+        try {
+            for(int i=0;i<10;i++){
+                FileUtils.copyFile(driver.getScreenshotAs(OutputType.FILE).getCanonicalFile(),new File(i+".png"));
+            }
 
-        System.out.println("start");
+        } catch (IOException e) {
 
-//        MobileElement el2 = (MobileElement) driver.findElementById("com.xueqiu.android:id/search_input_text");
-//        el2.sendKeys("apple");
-
+        }
     }
 
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public  void tearDown() {
         driver.quit();
     }
 }

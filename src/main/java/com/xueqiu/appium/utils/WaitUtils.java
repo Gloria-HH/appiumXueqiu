@@ -8,8 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WaitUtils {
 
-    public static WebElement wait(WebDriver driver, Integer timout, By by) {
+    public static WebElement waitElementLocate(WebDriver driver, Integer timout, By by) {
         WebDriverWait wait = new WebDriverWait(driver, timout);
-        return wait.until(ExpectedConditions.elementToBeClickable(by));
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 }

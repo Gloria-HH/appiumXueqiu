@@ -5,8 +5,6 @@ import com.xueqiu.appium.utils.WaitUtils;
 import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +64,7 @@ public class SearchPage extends BasePage {
         List<String> attributeList = new ArrayList<String>();
         List<WebElement> list = findALL(By.id("followed_btn"));
         for (WebElement webElement : list) {
-            webElement = WaitUtils.wait(Driver.getCurrentDriver(), 5, By.id("followed_btn"));
+            webElement = WaitUtils.waitElementLocate(Driver.getCurrentDriver(), 5, By.id("followed_btn"));
             webElement.click();
         }
         return attributeList;
