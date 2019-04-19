@@ -1,0 +1,4 @@
+searchContentList:
+  list:
+    - {stockCode: pdd,stockName: 拼多多}
+    - {stockCode: sogo,stockName: 搜狗}

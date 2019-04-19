@@ -2,32 +2,40 @@ package com.xueqiu.appium.page;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class SearchTest {
-    MainPage mainPage;
-    SearchPage searchPage;
+    static MainPage mainPage;
+    static SearchPage searchPage;
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll
+    public static void setUp() {
         mainPage = MainPage.start();
         searchPage = mainPage.gotoSearchPage();
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "pdd,拼多多",
-            "sogo,搜狗"
-    })
+    @MethodSource("searchContent")
     public void search(String stockCode, String stockName) {
         searchPage.search(stockCode);
         List<String> list = searchPage.searchResultList();
         assertThat(list, hasItems(stockName));
+
+    }
+    static Stream<Arguments> searchContent() {
+        return Stream.of(
+                arguments("pdd", "拼多多"),
+                arguments("sogo", "搜狗")
+        );
 
     }
 
@@ -55,8 +63,8 @@ public class SearchTest {
 
     }
 
-    @AfterEach
-    public void teardown() {
+    @AfterAll
+    public static void teardown() {
 
     }
 

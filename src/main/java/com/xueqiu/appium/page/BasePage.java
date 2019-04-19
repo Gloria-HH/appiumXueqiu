@@ -1,5 +1,7 @@
 package com.xueqiu.appium.page;
 
+import com.google.common.collect.Maps;
+import com.xueqiu.appium.config.BulletBoxConfig;
 import com.xueqiu.appium.driver.Driver;
 import com.xueqiu.appium.utils.WaitUtils;
 import org.openqa.selenium.By;
@@ -7,8 +9,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Map;
 
 public class BasePage {
+
 
     public WebElement find(final By locator) {
         try {
@@ -37,12 +41,16 @@ public class BasePage {
     }
 
     public void bulletBox() {
-        try {
-            By next = text("下次再说");
-            Driver.getCurrentDriver().findElement(next).click();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        BulletBoxConfig bulletBoxConfig = BulletBoxConfig.load();
+        bulletBoxConfig.getBulletBox().forEach(key -> {
+            try {
+                System.out.println("————————"+key);
+                By next = text(key);
+                Driver.getCurrentDriver().findElement(next).click();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } );
     }
 
 }

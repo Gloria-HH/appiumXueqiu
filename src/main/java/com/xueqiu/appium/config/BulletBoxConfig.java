@@ -2,17 +2,16 @@ package com.xueqiu.appium.config;
 
 import com.xueqiu.appium.utils.YamlUtils;
 
-import java.util.Map;
+import java.util.List;
 
 public class BulletBoxConfig {
-    private Map<String, Object> boxMap;
+    private List<String> bulletBox;
 
     public static BulletBoxConfig load() {
         return YamlUtils.readConfigFromYaml("/config/bulletBoxConfig.yaml", BulletBoxConfig.class);
     }
 
-    public Map<String, Object> getBoxMap() {
-        return boxMap;
+    public List<String> getBulletBox() {
+        return bulletBox;
     }
-
 }
