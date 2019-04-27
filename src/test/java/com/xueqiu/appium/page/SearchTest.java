@@ -1,5 +1,6 @@
 package com.xueqiu.appium.page;
 
+import com.utils.ArgumentsUtils;
 import com.xueqiu.appium.driver.Driver;
 import com.xueqiu.appium.utils.YamlUtils;
 import org.junit.jupiter.api.*;
@@ -15,13 +16,13 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class SearchTest {
 
     static MainPage mainPage;
     static SearchPage searchPage;
     static Map<String, Object> dataMap;
+
     @BeforeAll
     public static void setUp() {
         mainPage = MainPage.start();
@@ -37,17 +38,9 @@ public class SearchTest {
         assertThat(list, hasItems(stockName));
 
     }
+
     static Stream<Arguments> searchContent() {
-        List<Map<String, Object>> list = (List<Map<String, Object>>) dataMap.get("searchDataMap");
-        Stream<Object[]> str = list
-                .stream()
-                .map(s -> {
-                            String[] valueArray = new String[s.keySet().size()];
-                            s.values().toArray(valueArray);
-                            return valueArray;
-                        }
-                );
-        return str.map(Arguments::of);
+        return ArgumentsUtils.mapConvertStrArray(dataMap, "searchDataMap");
     }
 
     @ParameterizedTest

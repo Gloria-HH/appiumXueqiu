@@ -1,5 +1,6 @@
 package com.yaml;
 
+import com.utils.ArgumentsUtils;
 import com.utils.YamlFileSource;
 import com.xueqiu.appium.utils.YamlUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,7 +9,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -30,11 +30,8 @@ public class YamlTest {
     }
 
     static Stream<Arguments> stringProvider() {
-        List<String> list = (List<String>) dataMap.get("loginFailureDataStr");
-        Stream<String[]> stream = list.stream().map(s -> s.split(","));
-        return stream.map(Arguments::of);
+        return ArgumentsUtils.strConvertStrArray(dataMap, "loginFailureDataStr");
     }
-
 
     @ParameterizedTest
     @MethodSource("mapProvider")
@@ -43,16 +40,7 @@ public class YamlTest {
     }
 
     static Stream<Arguments> mapProvider() {
-        List<Map<String, Object>> list = (List<Map<String, Object>>) dataMap.get("loginFailureDataMap");
-        Stream<Object[]> str = list
-                .stream()
-                .map(s -> {
-                            String[] valueArray = new String[s.keySet().size()];
-                            s.values().toArray(valueArray);
-                            return valueArray;
-                        }
-                );
-        return str.map(Arguments::of);
+        return ArgumentsUtils.mapConvertStrArray(dataMap, "loginFailureDataMap");
 
     }
 
@@ -64,7 +52,7 @@ public class YamlTest {
         Integer result = dataFromYaml.getList().stream()
                 .mapToInt((i -> enableAbs ? Math.abs(i) : i)).sum();
         assertEquals(result, dataFromYaml.getResult());
-        assertEquals("junit5",dataFromYaml.getMap().get("name"));
+        assertEquals("junit5", dataFromYaml.getMap().get("name"));
     }
 
 }

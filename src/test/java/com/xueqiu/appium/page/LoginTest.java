@@ -1,6 +1,7 @@
 package com.xueqiu.appium.page;
 
 
+import com.utils.ArgumentsUtils;
 import com.xueqiu.appium.driver.Driver;
 import com.xueqiu.appium.utils.YamlUtils;
 import org.junit.jupiter.api.AfterAll;
@@ -11,7 +12,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -53,9 +53,7 @@ public class LoginTest {
 
 
     static Stream<Arguments> loginFailureDataStr() {
-        List<String> list = (List<String>) dataMap.get("loginFailureDataStr");
-        Stream<String[]> stream = list.stream().map(s -> s.split(","));
-        return stream.map(Arguments::of);
+        return ArgumentsUtils.strConvertStrArray(dataMap, "loginFailureDataStr");
     }
 
     @AfterAll
