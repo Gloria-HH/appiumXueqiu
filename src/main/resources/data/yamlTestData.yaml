@@ -1,0 +1,10 @@
+caseName: "case one"
+id: 2
+enableAbs: false
+list:
+  - 2
+  - 3
+map:
+  name: junit5
+  version: 5.1
+result: 5

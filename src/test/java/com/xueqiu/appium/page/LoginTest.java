@@ -1,21 +1,33 @@
 package com.xueqiu.appium.page;
 
 
+import com.xueqiu.appium.driver.Driver;
+import com.xueqiu.appium.utils.YamlUtils;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.IsEqual.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 
 public class LoginTest {
 
     static MainPage mainPage;
     static ProfilePage profilePage;
+    static Map<String, Object> dataMap;
 
     @BeforeAll
     public static void setUp() {
+        dataMap = YamlUtils.readConfigFromYaml("/data/loginTestData.yaml", HashMap.class);
         mainPage = MainPage.start();
         profilePage = mainPage.gotoProfilePage();
     }
@@ -33,13 +45,21 @@ public class LoginTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "12345678901,XXXXXXXXXXX",
-    })
+    @MethodSource("loginFailureDataStr")
     public void loginFailure(String phone, String password) {
         LoginPage loginPage = profilePage.gotoLoginPage();
         loginPage.loginSuccessByPhone(phone, password);
     }
 
 
+    static Stream<Arguments> loginFailureDataStr() {
+        List<String> list = (List<String>) dataMap.get("loginFailureDataStr");
+        Stream<String[]> stream = list.stream().map(s -> s.split(","));
+        return stream.map(Arguments::of);
+    }
+
+    @AfterAll
+    public static void teardown() {
+        Driver.getCurrentDriver().quit();
+    }
 }

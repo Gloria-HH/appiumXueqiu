@@ -1,0 +1,8 @@
+name: loginTestData
+loginFailureDataMap:
+  - user: 12345678901
+    password: XXXXXXXXXXX
+  - user: 12345678101
+    password: XXXXXXXXXXX
+loginFailureDataStr:
+  - 12345678901,XXXXXXXXXXX
