@@ -1,5 +1,6 @@
 package com.yaml;
 
+import com.google.common.collect.Lists;
 import com.utils.ArgumentsUtils;
 import com.utils.YamlFileSource;
 import com.xueqiu.appium.utils.YamlUtils;
@@ -9,10 +10,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 
 public class YamlTest {
 
@@ -26,7 +30,8 @@ public class YamlTest {
     @ParameterizedTest
     @MethodSource("stringProvider")
     void testWithSimpleMethodSource(String stockCode, String stockName) {
-        System.out.println(stockCode + ":" + stockName);
+        List<String> list = Lists.newArrayList("拼多多", "搜狗");
+        assertThat(list, hasItem(stockName));
     }
 
     static Stream<Arguments> stringProvider() {
@@ -35,13 +40,13 @@ public class YamlTest {
 
     @ParameterizedTest
     @MethodSource("mapProvider")
-    void testWithSimpleMethodSource1(String str, String str1) {
-        System.out.println(str + ":" + str1);
+    void testWithSimpleMethodSource1(String stockCode, String stockName) {
+        List<String> list = Lists.newArrayList("拼多多", "搜狗");
+        assertThat(list, hasItem(stockName));
     }
 
     static Stream<Arguments> mapProvider() {
         return ArgumentsUtils.mapConvertStrArray(dataMap, "loginFailureDataMap");
-
     }
 
 
@@ -51,8 +56,8 @@ public class YamlTest {
         boolean enableAbs = dataFromYaml.isEnableAbs();
         Integer result = dataFromYaml.getList().stream()
                 .mapToInt((i -> enableAbs ? Math.abs(i) : i)).sum();
-        assertEquals(result, dataFromYaml.getResult());
-        assertEquals("junit5", dataFromYaml.getMap().get("name"));
+        assertThat(result, equalTo(dataFromYaml.getResult()));
+        assertThat("junit5", equalTo(dataFromYaml.getMap().get("name")));
     }
 
 }
